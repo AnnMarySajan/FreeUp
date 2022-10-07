@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'shop.apps.ShopConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mathfilters',
     'django.contrib.humanize',
+    
 ]
 
 MIDDLEWARE = [
@@ -78,8 +81,11 @@ WSGI_APPLICATION = 'FreeUp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'freeup1',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost'
     }
 }
 
@@ -125,3 +131,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
      os.path.join(BASE_DIR,'static')
 ]
+STATIC_ROOT= os.path.join(BASE_DIR,'assets')
+
+MEDIA_URL= '/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+
+STRIPE_SECRET_KEY = 'sk_test_51LgsOoSFlcMyOOSFW0sSv1tXLwx3nakUtuva79XpUWX5ORUBLPF8ou7NSneFF58drLHKhLDMMYiMNjIsx3csDfSA00x2W2sIzU'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51LgsOoSFlcMyOOSFDeiortjBoBf9c5HQJNXBjq4g33X0LhNiq3TLX9eVER5Mt0Q8EfQfmPgs4He37VG7m1tenfKJ00hdaJL9Tm'

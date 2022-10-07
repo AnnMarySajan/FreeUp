@@ -1,0 +1,163 @@
+{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeUp</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'images/freeuplogo1.png' %}" type="image/icon type">
+</head>
+<body>
+  <header class="bg-info fixed-top">
+    <div class="row text-white">
+         <div class="col-md-12 my-auto">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link text-white" href="/"><h1>FreeUp</h1></a>
+                  </div>
+                  <div class="navbar-nav ml-auto pr-5">
+                    <a class="nav-item nav-link active text-white" href="#home-section">Home <span class="sr-only">(current)</span></a>
+                    {% if user.is_authenticated %}
+                      <a class="nav-item nav-link text-white" href="forresellers">For Resellers</a>
+                      {% else %}
+                      <a class="nav-item nav-link text-white" href="login">For Resellers</a>
+                      {% endif %}
+                      <a class="nav-item nav-link text-white" href="#about-section">About</a>
+                      <a class="nav-item nav-link text-white" href="#contact-section">Contact</a>
+                      {% if user.is_authenticated %}
+                      <a class="nav-item nav-link text-white" href="logout">Hey,{{user.first_name}} Logout</a>
+                      {% else %}
+                      <a class="nav-item nav-link text-white" href="login">Login</a>
+                      <a class="nav-item nav-link text-white" href="register">Register</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </nav>
+        </div>
+    </div>
+    
+    <div class="row text-white">
+    <div class="col-md-12 my-auto">
+    <nav class="navbar navbar-expand-lg navbar-white bg-white">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <div class="mx-3">
+            <form action="/" method="POST">
+                   {% csrf_token %} <select required class="form-select btn-muted" style="width: 250px;height:38px;" name="subcat" >
+                       <option hidden>Select Category</option>
+                       {% for subcat in subcats %}
+                       <option value="{{city.id}}">{{subcat.subcatname}}</option>
+                       {% endfor %}
+                   </select>
+                   <input class="float-right btn btn-info ml-1" type="submit" value="Go">
+            </form>
+          </div>
+        </ul>
+      </div>
+    </nav>
+    </div>
+    </div>
+</header>
+    
+    <section id="home-section" style="padding-top: 8em;">
+        <div class="container">
+            <div class="row">
+                <div class="col-mod-12 mx-auto">
+                    <img src="{% static 'images/freeuplogo1.png' %}" alt="" class="rounded-circle" style="width: 13em;">
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+          <div class="row">
+              {% for pgobj in pgobjs %}
+              <div class="col-md-3 ">
+                  <div class="card" style="width: 17rem;height: 25rem;">
+                    <div class="h-100">
+                      <img class="card-img-top" src="{{pgobj.img.url}}"alt="Card image cap" style="height: 11rem;">
+                    </div>  
+                      <div class="card-body">
+                          <h5 class="card-title">{{pgobj.brandname}}-{{pgobj.prname}}</h5>
+                            <p class="text-secondary"><b>{{pgobj.catname}} , {{pgobj.subcatname}}</b></p>
+                            <p class="card-text">Rs<b> {{pgobj.price}}</b> </p>
+                          <a href="/proverview/?pg={{pgobj.id}}" class="btn btn-info">More Info</a>
+                      </div>
+                  </div>
+                  
+              </div>
+
+              {% endfor %}
+          </div>
+        </div>
+        
+
+    </section>
+    
+
+    
+    
+    
+    <section class="p-5" id="about-section">
+        <div class="container">
+            <h1 class="text-center">About</h1>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5>FreeUp is a web based application for Buying and Reselling used products..This is a platform where those who are willing to resell their products, meet the people looking for using it. We ensure the products listed and the people looking for them are selected based on careful filtering criteria so that both parties benefit and the safety of all involved persons is ensured. We know how important your money is to you at both ends of the deal and that is a promise we make.</h5>            </div>
+                <div class="col-md-6">
+                    <img src="data:image/png;base64,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" alt="" class="src">
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="p-5" id="contact-section">
+      <div class="container">
+          <h1 class="text-center">Contact Us</h1>
+          <div class="row align-items-center">  
+            <div class="col-md-6">
+              <h5>FreeUp</h5>  
+              <h5>Email: connect.freeup@gmail.com</h5>  
+              <h5>Phone: 9446968817</h5> 
+              <h5>Near NSS Karayogam Hall,</h5> 
+              <h5>Eroor South P.O.,</h5>
+              <h5>Tripunithura</h5>
+              <h5>Pin: 682306</h5>
+            </div>
+              
+          </div>
+        </div>
+    </section>
+    
+    <div>
+      {% for message in messages %}
+      <script>
+          window.onload = function(){
+              alert('{{message}}')
+          }
+      </script>
+      {% endfor %}
+    </div>
+    
+    <footer class="bg-info">
+        <div class="container">
+            <div class="row text-white">
+                <div class="col-md-12">
+                    <p>All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+    </html>
